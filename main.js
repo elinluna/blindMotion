@@ -5,6 +5,7 @@ var NodeWebcam = require( "node-webcam" );
 var opts = {
  
     //Picture related
+    //test for git add
  
     width: 1280,
  
