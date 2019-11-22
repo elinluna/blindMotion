@@ -1,5 +1,6 @@
 const SerialPort = require('serialport');
 const port = new SerialPort('/dev/tty.usbmodem1414301', {baudRate: 115200});
+const port2 = new SerialPort('/dev/tty.usbmodem1414401', {baudRate: 115200});
 
 const express = require('express')
 const cors = require('cors');
@@ -12,6 +13,11 @@ function onOpenPort() {
     
     console.log("start listening 5000");
     app.listen(5000);
+}
+port2.on('open', oopp);
+
+function oopp() {
+
 }
 
 // http://localhost:5000/run-motor?1=1
@@ -35,14 +41,21 @@ app.get('/run-motor', function (req, res) {
 
     console.log(req.query);
 
-    let rotation = angry * 100;
-    
-    runMotor(rotation);
+    let rotation1 = angry * 100;
+    let rotation2 = happy * 100;
+    runMotor(rotation1);
+    runMotor2(rotation2);
     res.send('Hello World');
 });
 
 function runMotor(rotation) {
-    const cmd = `G1 X${rotation} Y${rotation} Z${rotation} F40000\n`;
+    const cmd = `G1 X${rotation} Y${rotation} Z${rotation} F4000\n`;
     port.write(cmd.toString());
+    console.log('Sending ' + cmd + 'out the serial port');
+}
+
+function runMotor2(rotation) {
+    const cmd = `G1 X${rotation} Y${rotation} Z${rotation} F4000\n`;
+    port2.write(cmd.toString());
     console.log('Sending ' + cmd + 'out the serial port');
 }
